@@ -38,6 +38,29 @@
         ①.收集用户信息，简单判断
         ②.请求接口，根据接口的反馈做后续的动作
         */
+        // 2.语义化处理
+        var user = {
+            login: function (name, password) {
+                $.post('http://192.168.172.82:8000/admin/login', {
+                    'user_name': name,
+                    'password': password
+                }).then(function (res) {
+                    console.log(res);
+
+                    if (res.code === 200) {
+                        alert('登录成功')
+                        //页面跳转
+                        window.location.href = "index.html"
+                    } else {
+                        alert(res.msg)
+                    }
+                })
+            }
+        }
+
+
+
+
         $('#submit').click(function () {
             // 收集信息，去除两端空格
             var name = $('#username').val().trim()
@@ -48,21 +71,22 @@
             }
 
             // 请求接口
-            $.post('http://192.168.172.82:8000/admin/login', {
-                'user_name': name,
-                'password': password
-            }).then(function (res) {
-                console.log(res);
+            // $.post('http://192.168.172.82:8000/admin/login', {
+            //     'user_name': name,
+            //     'password': password
+            // }).then(function (res) {
+            //     console.log(res);
 
-                if (res.code === 200) {
-                    alert('登录成功')
-                    //页面跳转
-                    window.location.href = "index.html"
-                } else {
-                    alert(res.msg)
-                }
-            })
-
+            //     if (res.code === 200) {
+            //         alert('登录成功')
+            //         //页面跳转
+            //         window.location.href = "index.html"
+            //     } else {
+            //         alert(res.msg)
+            //     }
+            // })
+            // 语义化
+            user.login(name, password)
         })
 
     </script>
