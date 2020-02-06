@@ -58,7 +58,17 @@
             }
 
             // 语义化  
-            user.login(name, password)
+            user.login(name, password).then(function (res) {
+                console.log(res);
+
+                if (res.code === 200) {
+                    alert('登录成功')
+                    //页面跳转
+                    window.location.href = "index.html"
+                } else {
+                    alert(res.msg)
+                }
+            })
 
         })
 

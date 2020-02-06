@@ -4,42 +4,42 @@
 var user = {
     // 用户登录功能
     login: function (name, password) {
-        $.post(APILIST.user_login, {
+        // $.post(APILIST.user_login, {
+        //     'user_name': name,
+        //     'password': password
+        // }).then(function (res) {
+        //     console.log(res);
+
+        //     if (res.code === 200) {
+        //         alert('登录成功')
+        //         //页面跳转
+        //         window.location.href = "index.html"
+        //     } else {
+        //         alert(res.msg)
+        //     }
+        // })
+
+
+        // 价值3000千块的代码优化
+        return $.post(APILIST.user_login, {
             'user_name': name,
             'password': password
-        }).then(function (res) {
-            console.log(res);
-
-            if (res.code === 200) {
-                alert('登录成功')
-                //页面跳转
-                window.location.href = "index.html"
-            } else {
-                alert(res.msg)
-            }
         })
+
     },
+
+
+
     // 用户退出功能
     logout: function () {
-        $.post(APILIST.user_logout, function (res) {
+        return $.post(APILIST.user_logout, function (res) {
             if (res.code === 200) {
                 window.location.href = 'login.html'
-            }
-        }).then(function (res) {
-            if (res.code === 200) {
-                window.location.href = 'login.html'
-            }
-            else {
-                alert(res.msg)
             }
         })
     },
     // 获取用户信息功能
     getInfo: function () {
-        $.get(APILIST.user_getInfo).then(function (res) {
-            console.log(res);
-            $('#userName').text(res.data.nickname)
-            $('.userImg').attr('src', res.data.user_pic)
-        })
+        return $.get(APILIST.user_getInfo)
     }
 }

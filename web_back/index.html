@@ -121,12 +121,23 @@
     <script>
         // 1.点击退出返回登录页面
         $('#logout').click(function () {
-            user.logout()
+            user.logout().then(function (res) {
+                if (res.code === 200) {
+                    window.location.href = 'login.html'
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
         })
 
 
         // 2.用户登录信息
-        user.getInfo()
+        user.getInfo().then(function (res) {
+            console.log(res);
+            $('#userName').text(res.data.nickname)
+            $('.userImg').attr('src', res.data.user_pic)
+        })
     </script>
 </body>
 
