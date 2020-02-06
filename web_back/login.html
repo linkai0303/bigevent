@@ -26,22 +26,18 @@
                 <input type="text" id="username" class="input_txt" placeholder="用户名">
                 <input type="password" id="password" class="input_pass" placeholder="密码">
                 <input type="button" id="submit" class="input_sub" value="登 录">
+                <!-- 表单中的submit会提交，把input类型改为button取消表单提交 -->
             </form>
         </div>
     </div>
 
     <script src="./js/jquery-1.12.4.min.js"></script>
+
+    <!-- 代码优化---语义化 -->
     <script>
-        // 1.用户登录
-        /*
-        给按钮添加点击事件
-        ①.收集用户信息，简单判断
-        ②.请求接口，根据接口的反馈做后续的动作
-        */
-        // 2.语义化处理
         var user = {
             login: function (name, password) {
-                $.post('http://10.253.6.52:8000/admin/login', {
+                $.post('http://localhost:8000/admin/login', {
                     'user_name': name,
                     'password': password
                 }).then(function (res) {
@@ -58,8 +54,15 @@
             }
         }
 
-
-
+    </script>
+    <script>
+        // 1.用户登录
+        /*
+        给按钮添加点击事件
+        ①.收集用户信息，简单判断
+        ②.请求接口，根据接口的反馈做后续的动作
+        */
+        // 2.语义化处理      3.模块化管理
 
         $('#submit').click(function () {
             // 收集信息，去除两端空格
@@ -68,27 +71,15 @@
             // 简单判断
             if (name.length === 0 || password.length === 0) {
                 alert('不能为空')
+                return
             }
 
-            // 请求接口
-            // $.post('http://192.168.172.82:8000/admin/login', {
-            //     'user_name': name,
-            //     'password': password
-            // }).then(function (res) {
-            //     console.log(res);
-
-            //     if (res.code === 200) {
-            //         alert('登录成功')
-            //         //页面跳转
-            //         window.location.href = "index.html"
-            //     } else {
-            //         alert(res.msg)
-            //     }
-            // })
-
-            // 语义化
+            // 语义化  
             user.login(name, password)
+
+
         })
+
 
     </script>
 </body>
