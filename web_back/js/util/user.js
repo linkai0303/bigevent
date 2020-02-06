@@ -4,7 +4,7 @@
 var user = {
     // 用户登录功能
     login: function (name, password) {
-        $.post('http://localhost:8000/admin/login', {
+        $.post(APILIST.user_login, {
             'user_name': name,
             'password': password
         }).then(function (res) {
@@ -21,7 +21,7 @@ var user = {
     },
     // 用户退出功能
     logout: function () {
-        $.post('http://localhost:8000/admin/logout', function (res) {
+        $.post(APILIST.user_logout, function (res) {
             if (res.code === 200) {
                 window.location.href = 'login.html'
             }
@@ -36,7 +36,7 @@ var user = {
     },
     // 获取用户信息功能
     getInfo: function () {
-        $.get('http://localhost:8000/admin/getuser').then(function (res) {
+        $.get(APILIST.user_getInfo).then(function (res) {
             console.log(res);
             $('#userName').text(res.data.nickname)
             $('.userImg').attr('src', res.data.user_pic)
