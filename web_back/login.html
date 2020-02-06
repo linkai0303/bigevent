@@ -33,28 +33,9 @@
 
     <script src="./js/jquery-1.12.4.min.js"></script>
 
-    <!-- 代码优化---语义化 -->
-    <script>
-        var user = {
-            login: function (name, password) {
-                $.post('http://localhost:8000/admin/login', {
-                    'user_name': name,
-                    'password': password
-                }).then(function (res) {
-                    console.log(res);
+    <!--引入user模块 -->
+    <script src="./js/util/user.js"></script>
 
-                    if (res.code === 200) {
-                        alert('登录成功')
-                        //页面跳转
-                        window.location.href = "index.html"
-                    } else {
-                        alert(res.msg)
-                    }
-                })
-            }
-        }
-
-    </script>
     <script>
         // 1.用户登录
         /*
