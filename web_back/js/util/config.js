@@ -12,5 +12,11 @@ var APILIST = {
 
     // 获取文章列表
     category_get: BASEURL + '/admin/category_search',
+    // 添加文章列表
     category_add: BASEURL + '/admin/category_add',
+    // 删除文章列表
+    category_del: BASEURL + '/admin/category_delete',
+    // 编辑文章列表
+    category_edit: BASEURL + '/admin/category_edit',
+
 }
