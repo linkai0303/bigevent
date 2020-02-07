@@ -11,5 +11,6 @@ var APILIST = {
     user_getInfo: BASEURL + '/admin/getuser',
 
     // 获取文章列表
-    category_get: BASEURL + '/admin/category_search'
+    category_get: BASEURL + '/admin/category_search',
+    category_add: BASEURL + '/admin/category_add',
 }
