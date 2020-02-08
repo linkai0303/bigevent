@@ -28,8 +28,6 @@ var user = {
 
     },
 
-
-
     // 用户退出功能
     logout: function () {
         return $.post(APILIST.user_logout, function (res) {
@@ -38,6 +36,7 @@ var user = {
             }
         })
     },
+
     // 获取用户信息功能
     getInfo: function () {
         return $.get(APILIST.user_getInfo)
