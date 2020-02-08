@@ -19,4 +19,6 @@ var APILIST = {
     // 编辑文章列表
     category_edit: BASEURL + '/admin/category_edit',
 
+    // 文章获取
+    article_get: BASEURL + '/admin/search',
 }

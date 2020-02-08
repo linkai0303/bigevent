@@ -53,9 +53,9 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbody">
 
-                    <tr>
+                    <!-- <tr>
                         <td>王积千造统最头</td>
                         <td>杰克</td>
                         <td>奇趣事</td>
@@ -65,7 +65,7 @@
                             <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
                 </tbody>
             </table>
@@ -91,11 +91,28 @@
     <script src="./js/util/config.js"></script>
     <script src="./js/util/category.js"></script>
     <script src="./js/template.js"></script>
-    <!-- 模板引擎 -->
+    <script src="./js/util/article.js"></script>
+    <!-- 文章类别模板引擎 -->
     <script id="tmp_category" type="text/html">
         <option>所有分类</option>
     {{each data item}}
         <option>{{item.name}}</option>
+    {{/each}}
+    </script>
+    <!-- 文章内容模板引擎 -->
+    <script id="tmp_article" type="text/html">
+    {{each data item}}
+        <tr>
+            <td>{{item.title}}</td>
+            <td>{{item.author}}</td>
+            <td>{{item.type}}</td>
+            <td class="text-center">{{item.date}}</td>
+            <td class="text-center">{{item.state}}</td>
+            <td class="text-center">
+                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+            </td>
+        </tr>
     {{/each}}
     </script>
     <script>
@@ -104,19 +121,26 @@
             window.parent.setMenu(1, 1);
         })
     </script>
+    <!-- // 获取文章类别并渲染 -->
     <script>
         category.get().then(function (res) {
-            // console.log(res);
             // 调用template函数
             var htmlStr = template('tmp_category', res)
             // console.log(htmlStr);
             // 渲染页面
             $('#selCategory').html(htmlStr)
-
         })
 
     </script>
-
+    <!-- 获取文章内容并渲染 -->
+    <script>
+        article.get().then(function (res) {
+            console.log(res);
+            // 模板引擎渲染
+            var htmlStr = template('tmp_article', res)
+            $('#tbody').html(htmlStr)
+        })
+    </script>
 </body>
 
 </html>
