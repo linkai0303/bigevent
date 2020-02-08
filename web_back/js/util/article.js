@@ -1,8 +1,8 @@
 // 文章内容相关的操作
 var article = {
     // 获取文章类别
-    get: function () {
-        return $.get(APILIST.article_get)
+    get: function (page) {
+        return $.get(APILIST.article_get, { 'page': page })
     },
     // 新增文章类别
     // add: function (name, slug) {

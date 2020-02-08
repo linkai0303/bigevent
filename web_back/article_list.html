@@ -71,8 +71,8 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
-                    <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                <ul class="pagination pagination-sm" id="pagination">
+                    <!-- <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
                     <li class="page-item"><a href="#" class="page-link">2</a></li>
@@ -82,7 +82,7 @@
                     <li class="page-item"><a href="#" class="page-link">6</a></li>
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li> -->
                 </ul>
             </div>
 
@@ -92,6 +92,9 @@
     <script src="./js/util/category.js"></script>
     <script src="./js/template.js"></script>
     <script src="./js/util/article.js"></script>
+    <!-- 分页插件 -->
+    <script src="./js/jquery.twbsPagination.js"></script>
+
     <!-- 文章类别模板引擎 -->
     <script id="tmp_category" type="text/html">
         <option>所有分类</option>
@@ -121,8 +124,11 @@
             window.parent.setMenu(1, 1);
         })
     </script>
-    <!-- // 获取文章类别并渲染 -->
     <script>
+
+
+        var curPage = 1;
+        // <!-- // 获取文章类别并渲染 -->
         category.get().then(function (res) {
             // 调用template函数
             var htmlStr = template('tmp_category', res)
@@ -131,15 +137,39 @@
             $('#selCategory').html(htmlStr)
         })
 
-    </script>
-    <!-- 获取文章内容并渲染 -->
-    <script>
-        article.get().then(function (res) {
-            console.log(res);
-            // 模板引擎渲染
-            var htmlStr = template('tmp_article', res)
-            $('#tbody').html(htmlStr)
-        })
+        // <!-- 获取文章内容并渲染 -->
+        getAndShow()
+        function getAndShow() {
+            article.get(curPage).then(function (res) {
+                console.log(res);
+                if (res.code === 200) {
+                    // (1)模板引擎渲染
+                    var htmlStr = template('tmp_article', res)
+                    $('#tbody').html(htmlStr)
+
+                    // (2)初始化分页插件
+                    $('#pagination').twbsPagination({
+                        totalPages: res.totalPage, // 总页数
+                        visiblePages: 5,
+                        first: '首页',
+                        last: '尾页',
+                        prev: '上一页',
+                        next: '下一页',
+                        initiateStartPageClick: false, // 初始时，不要去点击起始页
+                        //页码注册点击事件
+                        onPageClick: function (event, page) {
+                            // alert(page)
+                            // 重新设置传入参数
+                            curPage = page
+                            getAndShow()
+                        }
+                    })
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
+        }
     </script>
 </body>
 
