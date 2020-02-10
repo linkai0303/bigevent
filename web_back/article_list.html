@@ -195,7 +195,12 @@
 
         // 文章删除功能
         $('#tbody').on('click', '.del', function () {
-            var id = $(this).attr('data-id')
+            // 确认删除弹窗
+            // 原则：让代码今早结束
+            if (!confirm('确定要删除此文章吗？')) {
+                return
+            }
+            var id = $(this).data('id')
             article.del(id).then(function (res) {
                 if (res.code === 200) {
                     getAndShow()
