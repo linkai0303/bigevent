@@ -113,7 +113,7 @@
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:;" class="btn btn-danger btn-xs del" data-id="{{item.id}}">删除</a>
             </td>
         </tr>
     {{/each}}
@@ -193,6 +193,18 @@
 
         })
 
+        // 文章删除功能
+        $('#tbody').on('click', '.del', function () {
+            var id = $(this).attr('data-id')
+            article.del(id).then(function (res) {
+                if (res.code === 200) {
+                    getAndShow()
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
+        })
     </script>
 </body>
 
