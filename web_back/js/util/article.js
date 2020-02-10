@@ -9,9 +9,15 @@ var article = {
         return $.get(APILIST.article_del, { 'id': id })
     },
     // 新增文章类别
-    // add: function (name, slug) {
-    //     return $.post(APILIST.category_add, { 'name': name, 'slug': slug })
-    // },
+    add: function (fd) {
+        return $.ajax({
+            url: APILIST.article_add,
+            type: 'post',
+            data: fd,
+            processData: false, //不允许处理数据
+            contentType: false, //不允许设置请求头
+        })
+    },
     // // 编辑文章类别
     // edit: function (id, name, slug) {
     //     return $.post(APILIST.category_edit, { 'id': id, 'name': name, 'slug': slug })

@@ -6,8 +6,11 @@ var BASEURL = 'http://localhost:8000'
 
 // 所有接口信息
 var APILIST = {
+    // 用户登录
     user_login: BASEURL + '/admin/login',
+    // 用户退出
     user_logout: BASEURL + '/admin/logout',
+    // 获取用户信息
     user_getInfo: BASEURL + '/admin/getuser',
 
     // 获取文章列表
@@ -23,4 +26,6 @@ var APILIST = {
     article_get: BASEURL + '/admin/search',
     // 文章删除
     article_del: BASEURL + '/admin/article_delete',
+    // 文章添加
+    article_add: BASEURL + '/admin/article_publish',
 }
