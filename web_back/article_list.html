@@ -30,11 +30,11 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button id="btnSearch" class="btn btn-default btn-sm" type="button">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -97,9 +97,9 @@
 
     <!-- 文章类别模板引擎 -->
     <script id="tmp_category" type="text/html">
-        <option>所有分类</option>
+        <option value="">所有分类</option>
     {{each data item}}
-        <option>{{item.name}}</option>
+        <option value={{item.id}}>{{item.name}}</option>
     {{/each}}
     </script>
     <!-- 文章内容模板引擎 -->
@@ -126,8 +126,11 @@
     </script>
     <script>
 
+        var curPage = 1;    //页码全局变量
+        var curType = "";   //筛选类型全局变量
+        var curStatus = ""; //筛选状态全局变量
+        var curTotalPages;  //记录上一次总页码数
 
-        var curPage = 1;
         // <!-- // 获取文章类别并渲染 -->
         category.get().then(function (res) {
             // 调用template函数
@@ -140,12 +143,18 @@
         // <!-- 获取文章内容并渲染 -->
         getAndShow()
         function getAndShow() {
-            article.get(curPage).then(function (res) {
+            article.get(curPage, curType, curStatus).then(function (res) {
                 console.log(res);
                 if (res.code === 200) {
                     // (1)模板引擎渲染
                     var htmlStr = template('tmp_article', res)
                     $('#tbody').html(htmlStr)
+
+                    // 更新总页数
+                    if (curTotalPages !== res.totalPage) {
+                        $('#pagination').twbsPagination('destroy')
+                        curTotalPages = res.totalPage
+                    }
 
                     // (2)初始化分页插件
                     $('#pagination').twbsPagination({
@@ -170,6 +179,20 @@
                 }
             })
         }
+
+        //文章筛选功能
+        $('#btnSearch').click(function () {
+            // 重置页码 从第一页开始搜索
+            curPage = 1;
+            // 把用户选择保存到全局变量中
+            curType = $('#selCategory').val()
+            curStatus = $('#selStatus').val()
+            // console.log(type, status);
+
+            getAndShow()
+
+        })
+
     </script>
 </body>
 
