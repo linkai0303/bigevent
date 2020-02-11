@@ -4,6 +4,13 @@ var article = {
     get: function (page, type, state) {
         return $.get(APILIST.article_get, { 'page': page, 'type': type, 'state': state })
     },
+    /**
+     * 根据id获取文章
+     * @param {Number} id 
+     */
+    getById: function (id) {
+        return $.get(APILIST.article_get, { 'id': id })
+    },
     // 删除文章类别
     del: function (id) {
         return $.get(APILIST.article_del, { 'id': id })
