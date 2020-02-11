@@ -37,11 +37,11 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
                         <select class="form-control" id="type">
-                            <option>类别一</option>
+                            <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
                             <option selected>类别四</option>
-                            <option>类别五</option>
+                            <option>类别五</option> -->
                         </select>
                     </div>
                 </div>
@@ -76,34 +76,61 @@
     </div>
 
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template.js"></script>
     <script src="js/jedate/js/jedate.js"></script>
     <script src="js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="js/tinymce/js/tinymce_setup.js"></script>
     <script src="./js/util/config.js"></script>
     <script src="./js/util/article.js"></script>
+    <script src="./js/util/category.js"></script>
+    <script id="cate" type="text/html">
+        {{each data item}}
+        <option value="{{item.id}}">{{item.name}}</option>
+        {{/each}}
+    </script>
     <script>
         // 获取id
         var id = window.location.search.substr(4)
 
-        article.getById(id).then(function (res) {
-            console.log(res);
-            if (res.code === 200) {
-                $('#title').val(res.data.title)
-                $('#previewImg').attr('src', res.data.cover)
-                $('#dateinput').val(res.data.date)
-                // 给富文本编辑器设置内容
-                setTimeout(() => {
-                    // tinymce.activeEditor.setContent执行的条件是富文本编辑器已就绪
-                    // 如果Ajax数据已经回来的，富文本编辑器还没就绪，就会报错
-                    // 所以给他加一点延迟，等富文本编辑器准备好再执行
-                    tinymce.activeEditor.setContent(res.data.content)
-                }, 1000);
-            }
-            else {
-                alert(res.msg)
-            }
-        })
+        // 调用接口，渲染数据
+        function getAndShow(id) {
+            article.getById(id).then(function (res) {
+                console.log(res);
+                if (res.code === 200) {
+                    $('#title').val(res.data.title)
+                    $('#previewImg').attr('src', res.data.cover)
+                    $('#dateinput').val(res.data.date)
+                    // 给富文本编辑器设置内容
+                    setTimeout(() => {
+                        // tinymce.activeEditor.setContent执行的条件是富文本编辑器已就绪
+                        // 如果Ajax数据已经回来的，富文本编辑器还没就绪，就会报错
+                        // 所以给他加一点延迟，等富文本编辑器准备好再执行
+                        tinymce.activeEditor.setContent(res.data.content)
+                    }, 1000);
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
+        }
 
+        // 获取文章类型并渲染
+        getAndShowCategory()
+        function getAndShowCategory() {
+            category.get().then(function (res) {
+                console.log(res);
+                if (res.code === 200) {
+                    var htmlStr = template('cate', res)
+                    console.log(htmlStr);
+                    $('#type').html(htmlStr)
+                    // 类别获取完成后，获取并显示整个文章详情
+                    getAndShow()
+                }
+                else {
+                    alert(res.msg)
+                }
+            })
+        }
 
     </script>
 </body>
